@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "qtools"
+version = "0.1.0"
+description = "A convenient module for working with quantization of models"
+authors = ["Vladislav Kuznetsov <vd.kuznetsov@phystech.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+torch = "2.0.0"
+torchvision = "0.15.1"
+pandas = "2.0.2"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.4.0"
+
+[tool.black]
+line-length = 90
+target-version = ["py38"]
+
+[tool.isort]
+src_paths = ["ds_project"]
+profile = "black"
+line_length = 90
+lines_after_imports = 2
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
