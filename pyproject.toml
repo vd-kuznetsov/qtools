@@ -7,19 +7,25 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-torch = "2.0.0"
-torchvision = "0.15.1"
+torch = {version = "2.0.0", source = "pytorch"}
+torchvision = {version = "0.15.1", source = "pytorch"}
 pandas = "2.0.2"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.4.0"
+
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
 
 [tool.black]
 line-length = 90
 target-version = ["py38"]
 
 [tool.isort]
-src_paths = ["ds_project"]
+src_paths = ["qtools"]
 profile = "black"
 line_length = 90
 lines_after_imports = 2

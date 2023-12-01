@@ -1,7 +1,8 @@
 import constants
-from qtools.ptq import ptqs_pipeline
 from torch import load, save
 from utils import init_dataloader, model_pipeline
+
+from qtools.ptq import ptqs_pipeline
 
 
 if __name__ == "__main__":
