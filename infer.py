@@ -1,8 +1,7 @@
 import constants
-from torch import load, save
-from utils import init_dataloader, model_pipeline
-
 from qtools.ptq import ptqs_pipeline
+from torch import load, save
+from utils import init_dataloaders, model_pipeline
 
 
 if __name__ == "__main__":
@@ -10,9 +9,10 @@ if __name__ == "__main__":
     state_dict = load(constants.MODEL_NAME)
     model.load_state_dict(state_dict)
 
-    train_loader, test_loader = init_dataloader()
+    _, val_dataloader, calib_dataloader = init_dataloaders()
+    
     model_quantization = ptqs_pipeline(
-        model, test_loader, train_loader, save_predict=True
+        model, val_dataloader, calib_dataloader, save_predict=True
     )
 
     if constants.SAVE_QUANT_MODEL:

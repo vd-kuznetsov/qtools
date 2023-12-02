@@ -1,0 +1,6 @@
+outs:
+- md5: e341050df592b6b5b6e89bbab546368f.dir
+  size: 9407381
+  nfiles: 321
+  hash: md5
+  path: imagewoof

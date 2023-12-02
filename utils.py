@@ -1,23 +1,34 @@
 import constants
+
+from pathlib import Path
 from torch import nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, random_split
 from torchvision import datasets, models, transforms
 
 
-def init_dataloader(batch_size=constants.BATCH_SIZE):
-    transform = transforms.Compose([transforms.ToTensor()])
+def init_dataloaders(batch_size=constants.BATCH_SIZE):
+    # Add hydra config
+    data_path = Path('./data/imagewoof')
 
-    train_set = datasets.FashionMNIST(
-        "./data", train=True, download=True, transform=transform
-    )
-    test_set = datasets.FashionMNIST(
-        "./data", train=False, download=True, transform=transform
-    )
+    # Checking for downloading the dataset from DVC
+    if not data_path.exists():
+        print('Downloading data from DVC')
+    
+    transform = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+    ])
 
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
+    train_dataset = datasets.ImageFolder(data_path / 'train', transform=transform)
+    val_dataset = datasets.ImageFolder(data_path / 'val', transform=transform)
+    calib_dataset = random_split(val_dataset, [140, 20])[1]
 
-    return train_loader, test_loader
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
+    val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, drop_last=True)
+    calib_dataloader = DataLoader(calib_dataset, batch_size=batch_size, shuffle=False, drop_last=True)
+
+    return train_dataloader, val_dataloader, calib_dataloader
 
 
 def model_pipeline(evaluate=False):
@@ -25,24 +36,15 @@ def model_pipeline(evaluate=False):
     num_ftrs = model.fc.in_features
     model.fc = nn.Linear(num_ftrs, constants.CLASSES)
 
-    # relevant for data from FashionMNIST
-    model.conv1 = nn.Conv2d(
-        1, 64, kernel_size=(3, 3), stride=(2, 2), padding=(3, 3), bias=False
-    )
-
     if evaluate:
         return model
 
     for param in model.parameters():
         param.requires_grad = False
 
-    for param in model.conv1.parameters():
-        param.requires_grad = True
-
     for param in model.fc.parameters():
         param.requires_grad = True
 
     nn.init.xavier_normal_(model.fc.weight)
-    nn.init.xavier_normal_(model.conv1.weight)
 
     return model
