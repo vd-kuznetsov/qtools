@@ -12,10 +12,10 @@ from .utils import init_dataloaders, model_pipeline
 def train(cfg: DictConfig):
     mlflow.set_tracking_uri(cfg.mlflow.tracking_uri)
 
-    experiment_id = mlflow.get_experiment_by_name(cfg.mlflow.experiment_id)
+    experiment = mlflow.get_experiment_by_name(cfg.mlflow.experiment_name)
 
-    if experiment_id is None:
-        mlflow.create_experiment(cfg.mlflow.experiment_id)
+    if experiment is None:
+        mlflow.create_experiment(cfg.mlflow.experiment_name)
 
     train_dataloader, _ = init_dataloaders(cfg)
     model = model_pipeline(cfg)
@@ -27,7 +27,10 @@ def train(cfg: DictConfig):
 
 
 def train_model(cfg: DictConfig, model, optimizer, criterion, train_dataloader):
-    with mlflow.start_run(experiment_id=cfg.mlflow.experiment_id):
+    experiment_id = mlflow.get_experiment_by_name(
+        cfg.mlflow.experiment_name
+    ).experiment_id
+    with mlflow.start_run(experiment_id=experiment_id):
         hydra_log_params = OmegaConf.to_container(cfg, resolve=True)
         hydra_log_params["git_commit_id"] = (
             subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode("utf-8")
