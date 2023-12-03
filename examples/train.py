@@ -51,8 +51,8 @@ def train_model(cfg: DictConfig, model, optimizer, criterion, train_dataloader):
                 optimizer.step()
                 avg_loss += loss.item()
 
-            mlflow.log_metric("Train Accuracy@1", top1.avg, step=epoch)
-            mlflow.log_metric("Train Accuracy@5", top5.avg, step=epoch)
+            mlflow.log_metric("Train Accuracy_1", top1.avg, step=epoch)
+            mlflow.log_metric("Train Accuracy_5", top5.avg, step=epoch)
             mlflow.log_metric("Train Loss", avg_loss / len(train_dataloader), step=epoch)
 
     save(model.state_dict(), cfg.model.name + "_no_quant.pth")
