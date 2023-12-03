@@ -2,23 +2,26 @@ mode: all
 seed: 42
 
 data:
-    path: data
-    name: imagewoof
-    train_path: train
-    val_path: val
-    rev_dvc: main
-    test_size: 0.2
+  path: data
+  name: imagewoof
+  train_path: train
+  val_path: val
+  rev_dvc: main
 
 transforms:
-    resize: 256
-    center_crop: 224
+  resize: 256
+  center_crop: 224
 
 model:
-    name: resnet18
-    classes: 10
-    save_quant_model: False
+  name: resnet18
+  classes: 10
+  save_quant_model: False
 
 training:
-    batch_size: 32
-    epochs: 10
-    learning_rate: 3e-4
+  batch_size: 32
+  epochs: 10
+  learning_rate: 3e-4
+
+mlflow:
+  tracking_uri: "http://localhost:5000"
+  experiment_id: "qtools pipeline"
