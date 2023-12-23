@@ -14,7 +14,7 @@ def infer(cfg: DictConfig):
     train_dataloader, val_dataloader = init_dataloaders(cfg)
 
     model_quantization = ptqs_pipeline(
-        model, val_dataloader, train_dataloader, save_predict=False
+        model, val_dataloader, train_dataloader, save_predict=False, tag="eager"
     )
 
     if cfg.model.save_quant_model:

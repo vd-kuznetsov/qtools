@@ -38,8 +38,8 @@ def init_dataloaders(cfg: DictConfig):
     return train_dataloader, val_dataloader
 
 
-def model_pipeline(cfg: DictConfig, evaluate=False):
-    model = models.quantization.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+def model_pipeline(cfg: DictConfig, evaluate=False, quantize=False):
+    model = models.quantization.resnet18(quantize=quantize)
     num_ftrs = model.fc.in_features
     model.fc = nn.Linear(num_ftrs, cfg.model.classes)
 

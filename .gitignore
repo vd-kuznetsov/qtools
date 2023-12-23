@@ -132,3 +132,6 @@ dmypy.json
 # project specific
 outputs
 mlruns
+*.pth
+*.onnx
+triton/model_repository/1/model.onnx

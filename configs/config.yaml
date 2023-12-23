@@ -15,7 +15,7 @@ transforms:
 model:
   name: resnet18
   classes: 10
-  save_quant_model: False
+  save_quant_model: True
 
 training:
   batch_size: 32

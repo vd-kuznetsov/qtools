@@ -23,8 +23,9 @@ pre-commit run -a
 
 Recommended actions:
 
-1. Launch the MLflow server, check if your address matches the one specified in the config
-   
+1. Launch the MLflow server, check if your address matches the one specified in
+   the config
+
 2. `python commands.py`
 
 The second point can be run separately:
@@ -33,6 +34,7 @@ The second point can be run separately:
 
   - Downloads a dataset using DVC from GDrive
 
-- `python commands.py mode=infer` - quantizes the trained model with a single line of code
+- `python commands.py mode=infer` - quantizes the trained model with a single
+  line of code
 
   - By default, the weights of the model are used after training

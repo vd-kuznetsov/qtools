@@ -1,4 +1,5 @@
 import hydra
+from examples.export_model import export_model
 from examples.infer import infer
 from examples.train import train
 from omegaconf import DictConfig
@@ -14,6 +15,8 @@ def main(cfg: DictConfig):
         train(cfg)
     elif cfg.mode == "infer":
         infer(cfg)
+    elif cfg.mode == "export":
+        export_model(cfg)
 
 
 if __name__ == "__main__":
