@@ -5,6 +5,8 @@ A convenient module for working with quantization of models.
 The project is based on PyTorch's
 [FX/Eager](https://pytorch.org/docs/stable/quantization.html) technology.
 
+The report on the third homework assignment can be found at [triton_info.md](./triton_info.md).
+
 ## Install
 
 ```bash
