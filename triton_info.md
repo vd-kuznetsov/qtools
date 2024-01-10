@@ -2,6 +2,8 @@
 
 Metrics values obtained before deadline, [proof](./images/proof.png).
 
+Run `dvc pull` to download the onnx model to the correct location.
+
 ## System configuration
 
 | OS           | CPU                                     | vCPU | RAM    |
